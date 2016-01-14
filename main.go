@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net"
 	"os"
+	"strings"
 )
 
 func main() {
@@ -16,5 +17,17 @@ func main() {
 		fmt.Printf("%s\n", err)
 		os.Exit(1)
 	}
-	fmt.Printf("%s\n", mac_address)
+	chunks := strings.Split(mac_address.String(), ":")
+	fmt.Printf(
+		"%s%s:%sff:fe%s:%s%s\n",
+		chunks[0],
+		chunks[1],
+		chunks[2],
+		chunks[3],
+		chunks[4],
+		chunks[5],
+	)
+
+	a := 0x04
+	fmt.Printf("%b\n", a)
 }
