@@ -21,45 +21,45 @@ func parse_args() net.HardwareAddr {
 	return mac_address
 }
 
-func flip_seventh_bit(chunk string) string {
-	chunk_as_int, _ := strconv.Atoi(chunk)
-	shifted := chunk_as_int ^ (1 << 1)
+func flip_seventh_bit(mac_segment string) string {
+	mac_segment_as_int, _ := strconv.Atoi(mac_segment)
+	shifted := mac_segment_as_int ^ (1 << 1)
 	return strconv.Itoa(shifted)
 }
 
-func trim_leading_zeros(chunk string) string {
-	return strings.TrimLeft(chunk, "0")
+func trim_leading_zeros(mac_segment string) string {
+	return strings.TrimLeft(mac_segment, "0")
 }
 
-func trim_address(chunks []string) []string {
-	// Start by trimming the 1st, 3rd, and 5th chunks,
+func trim_address(mac_segments []string) []string {
+	// Start by trimming the 1st, 3rd, and 5th mac_segments,
 	// which are always safe to trim
 	for i := 0; i < 5; i = i + 2 {
-		chunks[i] = trim_leading_zeros(chunks[i])
-		// The 2nd and 4th chunks can be trimmed
-		// only if their preceding chunk is empty
-		if i != 2 && chunks[i] == "" {
-			chunks[i+1] = trim_leading_zeros(chunks[i+1])
+		mac_segments[i] = trim_leading_zeros(mac_segments[i])
+		// The 2nd and 4th mac_segments can be trimmed
+		// only if their preceding mac_segment is empty
+		if i != 2 && mac_segments[i] == "" {
+			mac_segments[i+1] = trim_leading_zeros(mac_segments[i+1])
 		}
 	}
-	return chunks
+	return mac_segments
 }
 
 func main() {
 	mac_address := parse_args()
 
-	chunks := strings.Split(mac_address.String(), ":")
+	mac_segments := strings.Split(mac_address.String(), ":")
 
-	chunks[0] = flip_seventh_bit(chunks[0])
-	chunks = trim_address(chunks)
+	mac_segments[0] = flip_seventh_bit(mac_segments[0])
+	mac_segments = trim_address(mac_segments)
 
 	fmt.Printf(
 		"%s%s:%sff:fe%s:%s%s\n",
-		chunks[0],
-		chunks[1],
-		chunks[2],
-		chunks[3],
-		chunks[4],
-		chunks[5],
+		mac_segments[0],
+		mac_segments[1],
+		mac_segments[2],
+		mac_segments[3],
+		mac_segments[4],
+		mac_segments[5],
 	)
 }
