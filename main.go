@@ -28,11 +28,30 @@ func flip_seventh_bit(chunk string) string {
 	return new_chunk_as_string
 }
 
+func trim_leading_zeros(chunk *string) {
+	*chunk = strings.TrimLeft(*chunk, "0")
+}
+
+func trim_address(chunks []string) {
+	// Start by trimming the 1st, 3rd, and 5th chunks,
+	// which are always safe to trim
+	for i := 0; i < 5; i = i + 2 {
+		trim_leading_zeros(&chunks[i])
+		// The 2nd and 4th chunks can be trimmed
+		// only if their preceding chunk is empty
+		if i != 2 && chunks[i] == "" {
+			trim_leading_zeros(&chunks[i+1])
+		}
+	}
+}
+
 func main() {
 	mac_address := parse_args()
 
 	chunks := strings.Split(mac_address.String(), ":")
 	chunks[0] = flip_seventh_bit(chunks[0])
+
+	trim_address(chunks)
 
 	fmt.Printf(
 		"%s%s:%sff:fe%s:%s%s\n",
