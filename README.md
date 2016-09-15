@@ -1,6 +1,8 @@
 slacker
 =========
 
+[![Build Status](https://img.shields.io/circleci/project/amylum/slacker.svg)](https://circleci.com/gh/amylum/slacker)
+[![GitHub release](https://img.shields.io/github/release/akerl/slacker.svg)](https://github.com/akerl/slacker/releases)
 [![MIT Licensed](https://img.shields.io/badge/license-MIT-green.svg)](https://tldrlegal.com/license/mit-license)
 
 Simple binary for converting a MAC address to an EUI-64 address. I wrote this for use in finding the SLAAC address of Docker containers.
